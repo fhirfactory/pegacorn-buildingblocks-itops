@@ -1,0 +1,5 @@
+---
+name: pegacorn-buildingblocks-alertmanager
+version: 1.0.0-SNAPSHOT
+description: Pegacorn Prometheus Alertmanager
+icon: img/icons/camel.svg
