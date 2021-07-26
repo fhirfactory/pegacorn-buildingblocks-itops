@@ -82,7 +82,7 @@ spec:
           tcpSocket:
             port: 9090
           initialDelaySeconds: 15
-        name: wildfly
+        name: monitoring
         ports:
         - containerPort: 9090
           name: prometheus
