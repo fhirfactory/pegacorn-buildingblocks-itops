@@ -1,0 +1,9 @@
+docker build --rm --build-arg IMAGE_BUILD_TIMESTAMP="%date% %time%" -t pegacorn-prometheus-itops:1.0.0-snapshot --file Dockerfile .
+
+## Storage needs Read/Write permissions
+In Alpine container:
+mkdir -p data/prometheus-config
+mkdir -p data/prometheus-storage
+chmod 777 -R data/prometheus-storage
+
+helm upgrade pegacorn-prometheus-itops-site-a --install --namespace site-a --set serviceName=pegacorn-prometheus-itops,imagePullPolicy=Never,basePort=32550,hostPathConfig=/data/prometheus-config,hostPathStorage=/data/prometheus-storage,imageTag=1.0.0-snapshot,numOfPods=1 helm
