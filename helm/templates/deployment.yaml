@@ -82,7 +82,7 @@ spec:
           tcpSocket:
             port: 9093
           initialDelaySeconds: 15
-        name: wildfly
+        name: alerts
         ports:
         - containerPort: 9093
           name: alertmanager
