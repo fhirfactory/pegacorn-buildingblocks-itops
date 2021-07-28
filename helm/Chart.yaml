@@ -1,0 +1,5 @@
+---
+name: pegacorn-buildingblocks-grafana
+version: 1.0.0-SNAPSHOT
+description: Pegacorn Buildingblocks Grafana for Dashboards
+icon: img/icons/camel.svg

@@ -1,0 +1,10 @@
+docker build --rm --build-arg IMAGE_BUILD_TIMESTAMP="%date% %time%" -t pegacorn-grafana-itops:1.0.0-snapshot --file Dockerfile .
+
+kubectl create secret generic pegacorn-grafana-itops-secrets --from-literal=grafanaPassword="Peg@cornGfdB" --namespace=site-a
+
+helm upgrade pegacorn-grafana-itops-site-a --install --namespace site-a --set serviceName=pegacorn-grafana-itops,imagePullPolicy=Never,basePort=32350,imageTag=1.0.0-snapshot,numOfPods=1 helm
+
+Access Dashboard:
+http://pegacorn-grafana-itops.site-a:32350
+user: pegacorn
+password: <from secrets>
