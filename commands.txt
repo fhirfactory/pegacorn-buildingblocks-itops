@@ -1,9 +1,10 @@
 docker build --rm --build-arg IMAGE_BUILD_TIMESTAMP="%date% %time%" -t pegacorn-prometheus-alertmanager:1.0.0-snapshot --file Dockerfile .
 
 ## Storage needs Read/Write permissions
-In Alpine container:
-mkdir -p data/alertmanager-config
+In Alpine container: (Yaml config files are in Aether-host-files | Azure Repo)
+mkdir -p data/prometheus-config
 mkdir -p data/alertmanager-storage
 chmod 777 -R data/alertmanager-storage
+cp -rf /run/desktop/mnt/host/e/dev/aether-host-files/monitoring/* /data/prometheus-config
 
-helm upgrade pegacorn-prometheus-alertmanager-site-a --install --namespace site-a --set serviceName=pegacorn-prometheus-alertmanager,imagePullPolicy=Never,basePort=32450,hostPathConfig=/data/alertmanager-config,hostPathStorage=/data/alertmanager-storage,imageTag=1.0.0-snapshot,numOfPods=1 helm
+\helm\helm upgrade pegacorn-prometheus-alertmanager-site-a --install --namespace site-a --set serviceName=pegacorn-prometheus-alertmanager,imagePullPolicy=Never,basePort=32450,hostPathConfig=/data/prometheus-config,hostPathStorage=/data/alertmanager-storage,imageTag=1.0.0-snapshot,numOfPods=1 helm
