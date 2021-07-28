@@ -1,8 +1,14 @@
+docker pull fhirfactory/pegacorn-base-node-alpine-itops:1.0.0
+docker pull fhirfactory/pegacorn-base-golang-alpine-itops:1.0.0
+docker pull fhirfactory/pegacorn-base-alpine-itops:1.0.0
 docker build --rm --build-arg IMAGE_BUILD_TIMESTAMP="%date% %time%" -t pegacorn-grafana-itops:1.0.0-snapshot --file Dockerfile .
 
 kubectl create secret generic pegacorn-grafana-itops-secrets --from-literal=grafanaPassword="Peg@cornGfdB" --namespace=site-a
 
-helm upgrade pegacorn-grafana-itops-site-a --install --namespace site-a --set serviceName=pegacorn-grafana-itops,imagePullPolicy=Never,basePort=32350,imageTag=1.0.0-snapshot,numOfPods=1 helm
+\helm\helm upgrade pegacorn-grafana-itops-site-a --install --namespace site-a --set serviceName=pegacorn-grafana-itops,imagePullPolicy=Never,basePort=32350,imageTag=1.0.0-snapshot,numOfPods=1 helm
+
+Add to your host file:
+127.0.0.1 pegacorn-grafana-itops.site-a
 
 Access Dashboard:
 http://pegacorn-grafana-itops.site-a:32350

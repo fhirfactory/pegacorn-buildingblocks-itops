@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+# Dashboard login
+sed -i "s/changeme/${DASHBOARD_PASSWORD}/g" /usr/share/grafana/conf/defaults.ini
+
 PERMISSIONS_OK=0
 
 if [ ! -r "$GF_PATHS_CONFIG" ]; then

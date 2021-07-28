@@ -1,40 +1,9 @@
-FROM node:14.16.0-alpine3.13 as js-builder
+FROM fhirfactory/pegacorn-base-node-alpine-itops:1.0.0 as js-builder
 
-WORKDIR /usr/src/app/
-
-COPY package.json yarn.lock ./
-COPY packages packages
-
-RUN apk --no-cache add git
-RUN yarn install --pure-lockfile --no-progress
-
-COPY tsconfig.json .eslintrc .editorconfig .browserslistrc .prettierrc.js ./
-COPY public public
-COPY tools tools
-COPY scripts scripts
-COPY emails emails
-
-ENV NODE_ENV production
-RUN yarn build
-
-FROM golang:1.16.1-alpine3.13 as go-builder
-
-RUN apk add --no-cache gcc g++
-
-WORKDIR $GOPATH/src/github.com/grafana/grafana
-
-COPY go.mod go.sum embed.go ./
-COPY cue cue
-COPY public/app/plugins public/app/plugins
-COPY pkg pkg
-COPY build.go package.json ./
-
-RUN go mod verify
-
-RUN go run build.go build
+FROM fhirfactory/pegacorn-base-golang-alpine-itops:1.0.0 as go-builder
 
 # Final stage
-FROM alpine:3.14
+FROM fhirfactory/pegacorn-base-alpine-itops:1.0.0
 
 ARG GF_UID="472"
 ARG GF_GID="0"
@@ -48,12 +17,6 @@ ENV PATH="/usr/share/grafana/bin:$PATH" \
     GF_PATHS_PROVISIONING="/etc/grafana/provisioning"
 
 WORKDIR $GF_PATHS_HOME
-
-RUN apk add --no-cache ca-certificates \
-    bash \
-    tzdata \
-    openssl \
-    musl-utils
 
 COPY conf ./conf
 
